@@ -50,3 +50,22 @@ Poking around the Nike website
    * Response data: {
     "error_id": "924962b3-c5bd-4c18-8bde-85d673cae40e",
     "errors": [{"code": "invalid_verification_code","message": "Invalid Request"}]}
+
+### After Login
+
+1. Token exchange using Bearer token (Name = token_exchange) [api.nike.com]/cssfproxy
+   * validates Bearer token
+   * Response is identityToken 
+
+2. (Name = events) [insights-collector.newrelic.com]/v1/accounts
+   * Request data: {"eventType":"AdtechMarketingClientEvent","event":"marketingClientEvent","eventName":"onLandingPageViewed","country":"us","eventId":"1f2b0654-b865-4d51-85de-9dfd42941789","isEVO":"N","privacyType":"nike-privacy-core","scriptSource":"","filter":"","windowHREF":"https://www.nike.com/","referer":"https://www.nike.com/auth/login","version":"","view":"homepage"}
+   * Response data: {
+    "success": true,
+    "uuid": "ca735001-0001-b533-39d5-0192019e417b"
+}
+
+3. (Name = address) [api.nike.com]/identity/user/v1/(value)/address
+   * Request Method: GET
+   * uses Bearer token
+   * Response data: {"id":"","code":"(zip)","country":"US","line1":"","locality":"","name":{"primary":{"family":"","given":""}},"phone":{"primary":""},"preferred":true,"province":""}
+       * contains personal data 
